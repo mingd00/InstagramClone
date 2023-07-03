@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+  <!-- 구글 머티리얼 아이콘 -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+    rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+  <title> Jinstargram </title>
+</head>
+
+<style>
+.main_body {
+        display: flex;
+        justify-content: center;
+        padding-top: 50px;
+        background-color: #FAFAFA;
+    }
+
+    .left_body {
+    {#background-color: skyblue;#} margin-right: 100px;
+        width: 600px;
+        height: 2000px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .right_body {
+    {#background-color: yellow;#} padding-top: 20px;
+        width: 300px;
+        height: 1000px;
+        left: 72%;
+        position: fixed
+    }
+
+    .feed_box {
+        background-color: white;
+        width: 580px;
+        margin: 10px;
+        min-height: auto;
+        padding-bottom: 10px;
+    }
+
+    .feed_img {
+        width: 100%;
+        object-fit: contain;
+    }
+
+    .feed_content {
+        padding: 0px 10px;
+    }
+
+    .feed_like {
+        padding: 0px 10px;
+    }
+
+    .feed_reply {
+        padding: 0px 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .feed_txt {
+        font-size: 14px;
+    }
+
+
+    .feed_icon {
+        padding: 5px 5px 0px 5px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    span {
+        padding-right: 5px;
+    }
+
+    .feed_name {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .feed_name_txt {
+        font-size: 14px;
+        padding: 0px 10px;
+        font-weight: bold;
+    }
+
+    .profile_box {
+        width: 40px;
+        height: 40px;
+        border-radius: 70%;
+        overflow: hidden;
+    }
+
+    .profile_img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .name_content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .name_content_txt {
+        font-size: 12px;
+        padding: 0px 10px;
+        font-weight: bold;
+        color: lightgray;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 190px;
+    }
+
+    .big_profile_box {
+        width: 60px;
+        height: 60px;
+        border-radius: 70%;
+        overflow: hidden;
+    }
+
+    .link_txt {
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .recommend_box {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        align-items: center;
+    }
+
+    .comment_box {
+        margin: 40px 0 0 5px;
+        font-size: 12px;
+        font-weight: bold;
+        color: lightgray;
+        display: flex;
+        flex-direction: column;
+    }
+
+    @media screen and (max-width: 1280px) {
+        .right_body {
+            display: none;
+        }
+    }
+
+
+    .modal {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(1.5px);
+        -webkit-backdrop-filter: blur(1.5px);
+    }
+
+    .modal_window {
+        background: white;
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 800px;
+        height: 600px;
+        position: relative;
+    }
+
+    .modal_title{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.18);
+    }
+
+    .modal_title_side{
+        margin: 5px;
+        flex: 0 0 40px;
+        text-align: center;
+    }
+
+    .modal_image_upload{
+        outline: 2px dashed black ;
+        outline-offset:-10px;
+        transition: all .15s ease-in-out;
+        width: 798px;
+        height: 548px;
+        text-align: center;
+        line-height: 548px;
+    }
+
+    .modal_image_upload_content{
+        outline: 2px dashed black ;
+        outline-offset:-10px;
+        text-align: center;
+        transition: all .15s ease-in-out;
+        width:500px;
+        height: 548px;
+    }
+
+    .modal_image_content{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .modal_content_write{
+        display: flex;
+        flex-direction: column;
+        border-left: 1px solid rgba(0, 0, 0, 0.18);;
+    }
+
+    .feed_content_textarea{
+        resize: none;
+        width: 294px;
+        border: none;
+    }
+</style>
+
+<body>
+
+<!-- 상단 내비게이션 바 -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom" style="width: 100%;height: 50px;position: fixed;" >
+  <div class="container">
+    <img style="height: 30px; object-fit: contain"
+         src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png">
+    <input class="form-control" style="width: 200px" type="search" placeholder="Search" aria-label="Search">
+    <div>
+      <span class="material-icons">home</span>
+      <span class="material-icons">send</span>
+      <span id="add_feed" class="material-icons-outlined">add_box</span>
+      <span class="material-icons-outlined">explore</span>
+      <span class="material-icons-outlined">favorite_border</span>
+    </div>
+  </div>
+</nav>
+
+<!-- 바디 영역 -->
+<div class="main_body">
+  <div class="left_body">
+    {% for feed in feed_list %}
+    <div class="border feed_box">
+      <div class="feed_name">
+        <div class="profile_box">
+          <img class="profile_img" src="{{ feed.profile_image }}">
+        </div>
+        <span class="feed_name_txt"> {{ feed.user_id }}</span>
+      </div>
+      <img class="feed_img" src="{{ feed.image }}">
+
+      <div class="feed_icon">
+        <div>
+          <span class="material-icons-outlined">
+            favorite_border
+          </span>
+          <span class="material-icons-outlined">
+            mode_comment
+          </span>
+          <span class="material-icons-outlined">
+            send
+          </span>
+        </div>
+        <div>
+          <span class="material-icons-outlined">
+            turned_in_not
+          </span>
+        </div>
+      </div>
+      <div class="feed_like">
+        <p class="feed_txt"> <b>좋아요 {{ feed.like_count }}개</b></p>
+      </div>
+      <div class="feed_content">
+        <p class="feed_txt"> <b> {{ feed.user_id }} </b> {{ feed.content }}</p>
+      </div>
+      <div class="feed_reply">
+        <span class="feed_txt"> <b> mychew </b> 댓글1 </span>
+        <span class="feed_txt"> <b> cho </b> 댓글2 </span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="right_body">
+    <div class="feed_name" style="justify-content: space-between">
+      <div style="display: flex; align-items: center; ">
+        <div class="big_profile_box">
+          <img class="profile_img"
+               src="data:image/jpeg;base64,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">
+        </div>
+        <div class="name_content">
+          <span class="feed_name_txt"> jin.99 </span>
+          <span class="name_content_txt"> Moon Kyujin</span>
+        </div>
+      </div>
+
+      <a class="link_txt" >
+        전환
+      </a>
+    </div>
+
+    <div class="recommend_box">
+      <span style="color: gray"> 회원님을 위한 추천</span>
+      <span style="font-size: 12px"> 모두 보기 </span>
+    </div>
+    <div>
+      <div class="feed_name" style="justify-content: space-between">
+        <div class="profile_box">
+          <img class="profile_img"
+               src="https://i.pinimg.com/736x/93/a6/8b/93a68b57a54e4bdc73d43d1d049b94b3.jpg">
+        </div>
+        <div class="name_content">
+          <span class="feed_name_txt"> dation3388 </span>
+          <span class="name_content_txt"> Jinstargram 신규가입</span>
+        </div>
+        <a class="link_txt">
+          팔로우
+        </a>
+      </div>
+      <div class="feed_name" style="justify-content: space-between">
+        <div class="profile_box">
+          <img class="profile_img"
+               src="http://file3.instiz.net/data/cached_img/upload/2021/01/27/18/2ce2f41f7e9f09c0acc77faac7452dbf.jpg">
+        </div>
+        <div class="name_content">
+          <span class="feed_name_txt"> gaoudi </span>
+          <span class="name_content_txt"> IU 외 5명이 팔로우</span>
+        </div>
+        <a class="link_txt">
+          팔로우
+        </a>
+      </div>
+      <div class="feed_name" style="justify-content: space-between">
+        <div class="profile_box">
+          <img class="profile_img"
+               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTiCVWdogd6Ocsm08kL8ph4sb1MN0AYEiSUQ&usqp=CAU">
+        </div>
+        <div class="name_content">
+          <span class="feed_name_txt"> CAU </span>
+          <span class="name_content_txt"> IU 외 5명이 팔로우</span>
+        </div>
+        <a class="link_txt">
+          팔로우
+        </a>
+      </div>
+      <div class="feed_name" style="justify-content: space-between">
+        <div class="profile_box">
+          <img class="profile_img"
+               src="https://pbs.twimg.com/media/EhzH0_DU4AEZ9yr.jpg">
+        </div>
+        <div class="name_content">
+          <span class="feed_name_txt"> 123456789 </span>
+          <span class="name_content_txt"> .. </span>
+        </div>
+        <a class="link_txt">
+          팔로우
+        </a>
+      </div>
+      <div class="feed_name" style="justify-content: space-between">
+        <div class="profile_box">
+          <img class="profile_img"
+               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHPNYM5RQgA2F7BtpBQ-OrNFKDXVDUpypRuw&usqp=CAU">
+        </div>
+        <div class="name_content">
+          <span class="feed_name_txt"> instiz </span>
+          <span class="name_content_txt"> 귀여워 </span>
+        </div>
+        <a class="link_txt">
+          팔로우
+        </a>
+      </div>
+    </div>
+    <div class="comment_box">
+      <span> 인스타그램 클론 코딩 </span>
+
+    </div>
+  </div>
+</div>
+
+<div id="modal_add_feed" class="modal modal_overlay">
+    <div class="modal_window">
+        <div class="modal_title">
+            <div class="modal_title_side"></div>
+            <div> 새 게시물 </div>
+            <div class="modal_title_side">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: 30px">
+                    close
+                </span>
+            </div>
+        </div>
+        <div class="modal_image_upload">
+            <span style="text-align: center"> 사진을 여기에 끌어다 놓으세요. </span>
+
+        </div>
+    </div>
+</div>
+
+<div id="modal_add_feed_content" class="modal modal_overlay_content">
+    <div class="modal_window">
+        <div class="modal_title">
+            <div class="modal_title_side"></div>
+            <div style="margin: 5px"> 새 게시물 </div>
+            <div class="modal_title_side">
+                <span id="close_modal" class="close_modal material-icons-outlined" style="font-size: 30px">
+                    close
+                </span>
+            </div>
+        </div>
+        <div class="modal_image_content">
+            <div id="input_image" class="modal_image_upload_content">
+
+            </div>
+            <div class="modal_content_write">
+                <div class="feed_name">
+                    <div class="profile_box">
+                        <img id="input_profile_image" class="profile_img" src="data:image/jpeg;base64,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">
+                    </div>
+                    <span id="input_user_id" class="feed_name_txt"> jin.99 </span>
+                </div>
+                <div style="height: 440px">
+                    <textarea id="input_content" class="feed_content_textarea form-control col-sm-5" rows="10" placeholder="설명을 입력하세요..."></textarea>
+                </div>
+                <div style="width: 100%; text-align: center">
+                    <button id="button_write_feed" type="button" class="btn btn-primary" style="width: 268px"> 공유하기</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // 모달 띄우기 코드
+    const modal = document.getElementById("modal_add_feed");
+    const buttonAddFeed = document.getElementById("add_feed");
+    buttonAddFeed.addEventListener("click", e => {
+         modal.style.top = window.pageYOffset + 'px'; // top을 이용해 시작 y위치를 바꿔줌
+        modal.style.display = "flex";
+        document.body.style.overflowY = "hidden"; // 스크롤 없애기
+    });
+
+    // 모달 닫기 코드
+    const buttonCloseModal = document.getElementById("close_modal");
+    buttonCloseModal.addEventListener("click", e => {
+        modal.style.display = "none";
+        document.body.style.overflowY = "visible";
+    });
+
+    // 모달에 사진을 올릴 때 (jquery)
+
+    $('.modal_image_upload')
+        .on("dragover", dragOver)
+        .on("dragleave", dragOver)
+        .on("drop", uploadFiles);
+
+    function dragOver(e){
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (e.type == "dragover") {
+            $(e.target).css({
+                "background-color": "black",
+                "outline-offset": "-20px"
+            });
+        } else {
+            $(e.target).css({
+                "background-color": "white",
+                "outline-offset": "-10px"
+            });
+        }
+    }
+
+function uploadFiles(e){
+        e.stopPropagation();
+        e.preventDefault();
+        console.log(e.dataTransfer)
+        console.log(e.originalEvent.dataTransfer)
+
+        e.dataTransfer = e.originalEvent.dataTransfer;
+
+        files = e.dataTransfer.files;
+        if (files.length > 1) {
+            alert('하나만 올려라.');
+            return;
+        }
+
+        if (files[0].type.match(/image.*/)) {
+            $('#modal_add_feed_content').css({
+                display : 'flex'
+            });
+            $('.modal_image_upload_content').css({
+                "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
+                "outline": "none",
+                "background-size": "contain",
+                "background-repeat" : "no-repeat",
+                "background-position" : "center"
+            });
+            $('#modal_add_feed').css({
+                display: 'none'
+            })
+        }else{
+            alert('이미지가 아닙니다.');
+            return;
+        }
+    };
+     $('#button_write_feed').on('click', ()=>{
+        const image = $('#input_image').css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
+        const content = $('#input_content').val();
+        const profile_image = $('#input_profile_image').attr('src');
+        const user_id = $('#input_user_id').text();
+
+        const file = files[0];
+
+        let fd = new FormData();
+
+        fd.append('file', file);
+        fd.append('image', image);
+        fd.append('content', content);
+        fd.append('profile_image', profile_image);
+        fd.append('user_id', user_id);
+
+        if(image.length <= 0)
+        {
+            alert("이미지가 비어있습니다.");
+        }
+        else if(content.length <= 0)
+        {
+            alert("설명을 입력하세요");
+        }
+        else if(profile_image.length <= 0)
+        {
+            alert("프로필 이미지가 비어있습니다.");
+        }
+        else if(user_id.length <= 0)
+        {
+            alert("사용자 id가 없습니다.");
+        }
+        else{
+            writeFeed(fd);
+            console.log(files[0]);
+        }
+    });
+
+    function writeFeed(fd) {
+        $.ajax({
+            url: "/content/upload",
+            data: fd,
+            method: "POST",
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log("성공");
+            },
+            error: function (request, status, error) {
+                console.log("에러");
+            },
+            complete: function() {
+                console.log("무조건실행");
+                closeModal();
+                location.reload();
+            }
+        })
+    };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+<!--
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+-->
+
+</body>
+</html>
